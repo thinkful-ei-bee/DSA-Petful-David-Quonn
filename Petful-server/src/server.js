@@ -9,9 +9,10 @@ const petRouter = require('./pet/pet-router');
 
 
 app.use(helmet());
-app.use(cors({
-  origin: CLIENT_ORIGIN
-}));
+app.use(cors());
+// app.use(cors({
+//   origin: CLIENT_ORIGIN
+// }));
 
 
 app.use('/api/', petRouter);
