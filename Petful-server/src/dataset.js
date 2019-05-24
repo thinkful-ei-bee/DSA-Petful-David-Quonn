@@ -42,7 +42,7 @@ dogs.enqueue(
 cats.enqueue(
   {
     imageURL:'https://www.catbreedslist.com/uploads/allimg/cat-pictures/Persian-Cat-2-2.jpg', 
-    imageDescription: '',
+    imageDescription: 'Too beautiful for words',
     name: 'Teddy',
     sex: 'Male',
     age: 5,
