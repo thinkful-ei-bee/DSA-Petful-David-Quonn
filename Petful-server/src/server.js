@@ -1,5 +1,5 @@
 'use strict';
-const { PORT, NODE_ENV, CLIENT_ORIGIN } = require('./config');
+const { PORT, NODE_ENV } = require('./config');
 require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
@@ -10,10 +10,6 @@ const petRouter = require('./pet/pet-router');
 
 app.use(helmet());
 app.use(cors());
-// app.use(cors({
-//   origin: CLIENT_ORIGIN
-// }));
-
 
 app.use('/api/', petRouter);
 
