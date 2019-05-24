@@ -1,8 +1,20 @@
+'use strict';
+const { PORT, NODE_ENV, CLIENT_ORIGIN } = require('./config');
+require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
 const cors = require('cors');
-
 const app = express();
-app.use(cors());
+const petRouter = require('./pet/pet-router');
+
+
+app.use(helmet());
+app.use(cors({
+  origin: CLIENT_ORIGIN
+}));
+
+
+app.use('/api/', petRouter);
 
 // Catch-all 404
 app.use(function (req, res, next) {
@@ -11,16 +23,21 @@ app.use(function (req, res, next) {
   next(err);
 });
 
-// Catch-all Error handler
-// Add NODE_ENV check to prevent stacktrace leak
-app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: app.get('env') === 'development' ? err : {}
-  });
+// eslint-disable-next-line no-unused-vars
+app.use(function errorHandler(error, req, res, next) {
+  let response;
+  if (NODE_ENV === 'production') {
+    response = { error: { message: 'server error' } };
+  } else {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    response = {message: error.message, error};
+  }
+
+  res.status(500).json(response);
 });
 
-app.listen(8080,()=>{
-  console.log('Serving on 8080');
+app.listen(PORT, ()=>{
+  // eslint-disable-next-line no-console
+  console.log(`Serving on ${PORT}`);
 });
